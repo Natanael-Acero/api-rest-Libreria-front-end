@@ -23,7 +23,7 @@
                     <input name="email" type="text" class="form-control" placeholder="Email"><br>
                     <input name="password" type="password" class="form-control" placeholder="Contraseña"><br>
                     <button type="submit" class="btn btn-block btn-success">Entrar</button><br>
-                    <p href="registro.html" class="text-center text-primary">¿No tienes cuenta? Registrate ahora!</p>
+                    <p class="text-center text-primary"><a href="registro.html">¿No tienes cuenta? Registrate ahora!</a></p>
 
                 </form>
             </div>
@@ -31,7 +31,7 @@
     </div>
 
     <script type="text/javascript">
-        $('form').on('submit', function(e) {
+        $('login').on('submit', function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
 
