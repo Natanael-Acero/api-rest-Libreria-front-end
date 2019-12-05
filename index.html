@@ -16,7 +16,7 @@
     <div class="container-fluid">
         <div class="row h-100 d-flex justify-content-center">
             <div class="col-4 mt-3">
-                <form enctype="multipart/form-data" name="login">
+                <form id="login" enctype="application/x-www-form-urlencoded">
                     <p id="error" style="color: red; display:none;"></p>
                     <img src="./assets/images/libro.png" class="img-fluid"><br>
                     <h1 class="text-center">NAPECK Libreria</h1>
@@ -31,17 +31,19 @@
     </div>
 
     <script type="text/javascript">
-        $('login').on('submit', function(e) {
+        $('#login').on('submit', function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
 
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:3000/login',
-                data: $('form').serialize(),
+                data: $('#login').serialize(),
                 success: function(resp) {
                     window.localStorage.setItem('token', resp.token);
+                    console.log(resp);
                     document.location.href = 'principal.html';
+
                 },
                 error: function(err) {
                     $('#error').text(err.responseJSON.err.message);
