@@ -36,11 +36,14 @@
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:3000/usuario',
-                data: $('#signin').serialize(),
+                data: $('form').serialize(),
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
                 success: function(resp) {
                     window.localStorage.setItem('token', resp.token);
                     console.log(resp);
-                    document.location.href = 'principal.html';
+                    document.location.href = 'index.html';
 
                 },
                 error: function(err) {
