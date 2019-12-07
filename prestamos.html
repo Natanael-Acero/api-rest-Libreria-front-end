@@ -2,79 +2,29 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Maquetación para el Master en Frameworks JavaScript</title>
-
-    <!--HOJA DE ESTILOS-->
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
-
-</head>
-
-<body>
-    <header id="header">
-        <div class="center" align=>
-            <!-- LOGO -->
-            <div id="logo">
-                <img src="assets/images/libro.png" class="app-logo" alt="Logotipo" />
-                <span id="brand">
-                        <strong>NAPECK</strong>Libreria
-                    </span>
-            </div>
-
-            <!-- MENU -->
-
-            </nav>
-
-            <!--LIMPIAR FLOTADOS-->
-            <div class="clearfix"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="assets/images/libro.png" width="50" height="50" class="d-inline-block align-top" alt="">
+        <a class="navbar-brand" href="principal.html">NAPECK Libreria</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="usuarios.html">Alta Usuario<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="libros.html">Libros<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="prestamos.html">Prestamos<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
         </div>
-    </header>
-
-    <div class="center">
-        <section id="content">
-
-            <h1 class="subheader">Prestamos</h1>
-
-            <form class="mid-form">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" />
-                </div>
-
-                <div class="form-group">
-                    <label for="apellidos">Apellidos</label>
-                    <input type="text" name="apellidos" />
-                </div>
-
-                <div class="form-group">
-                    <label for="bio">Biografia</label>
-                    <textarea name="bio"></textarea>
-                </div>
-
-                <div class="form-group radibuttons">
-                    <input type="radio" name="genero" value="hombre" /> Hombre
-                    <input type="radio" name="genero" value="mujer" /> Mujer
-                    <input type="radio" name="genero" value="otro" /> Otro
-                </div>
-
-                <div class="clearfix"></div>
-
-                <input type="submit" value="Enviar" class="btn btn-success" />
-
-            </form>
-
-        </section>
-
-        <div class="clearfix"></div>
-    </div>
-
-    <footer id="footer">
-        <div class="center">
-            <p>
-                &copy; NAPECK Librerias
-            </p>
-        </div>
-    </footer>
-</body>
+    </nav>
+    </body>
 
 </html>

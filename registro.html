@@ -35,11 +35,8 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:3000/usuario',
+                url: 'http://localhost:3000/registro',
                 data: $('form').serialize(),
-                beforeSend: function(request) {
-                    request.setRequestHeader("token", window.localStorage.getItem('token'));
-                },
                 success: function(resp) {
                     window.localStorage.setItem('token', resp.token);
                     console.log(resp);
