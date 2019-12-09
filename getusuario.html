@@ -24,7 +24,7 @@
                           Usuarios
                         </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="getusuario.html">Ver Usuarios</a>
+                        <a class="dropdown-item" href="getlibros.html">Ver Usuarios</a>
                         <a class="dropdown-item" href="#">Modificar Usuarios</a>
                     </div>
                 </li>
@@ -44,14 +44,14 @@
             </ul>
         </div>
     </nav>
-    <table id="listaLibros" class="table table-striped table-dark">
+    <table id="listaUsuarios" class="table table-striped table-dark">
         <thead>
             <tr>
                 <th scope="col">Nombre</th>
-                <th scope="col">No. Pag</th>
-                <th scope="col">Autor</th>
-                <th scope="col">Editorial</th>
-                <th scope="col">Precio</th>
+                <th scope="col">Email</th>
+                <th scope="col">Direccion</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -65,20 +65,21 @@
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:3000/libro',
+                                url: 'http://localhost:3000/usuario',
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },
                                 success: function(resp) {
-                                        console.log(resp.libros);
-                                        $.each(resp.libros, function() {
-                                                    $("#listaLibros > tbody").append(
-                                                            `${`<tr><td>${this.nombre}</td>`}
-                            ${`<td>${this.noPag}</td>`} 
-                            ${`<td>${this.autor}</td>`} 
-                            ${`<td>${this.editorial}</td>`}
-                            ${`<td>${this.precio}</td>`}
-                            ${`<td><button type="button" class="btn btn-success">Prestamo</button></td></tr>`}`);              
+                                        console.log(resp.usuarios);
+                                        $.each(resp.usuarios, function() {
+                                                    $("#listaUsuarios > tbody").append(
+                                                            `${`<tr><td>${this.nombre}</td>`} 
+                            ${`<td>${this.email}</td>`} 
+                            ${`<td>${this.direccion}</td>`}
+                            ${`<td><button type="button" class="btn btn-danger">Eliminar</button></td>`}
+                            ${`<td><button type="button" class="btn btn-warning">Actualizar</button></td></tr>`}`);
+
+                                          
                     });
                 }
             });

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        $.urlParam = function(name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            }
+            return decodeURI(results[1]) || 0;
+        }
+        var id = $.urlParam('id');
+        console.log(id);
+        $(document).ready(function() {
+
+            $.ajax({
+                type: 'GET',
+                url: `http://localhost:3000/libro/${id}`,
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
+                success: function(resp) {
+                    console.log(resp);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>2
