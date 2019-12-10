@@ -43,6 +43,10 @@
                         </div>
                         <input name="direccion" type="text" class="form-control" placeholder="Direccion">
                     </div><br>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
 
                     <button type="submit" class="btn btn-block btn-outline-light">Registrarse</button><br>
                 </form>
@@ -51,26 +55,52 @@
     </div>
 
     <script type="text/javascript">
-        $('#signin').on('submit', function(e) {
+        $('form').on('submit', function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:3000/registro',
+                url: 'http://localhost:3000/usuario',
                 data: $('form').serialize(),
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
                 success: function(resp) {
-                    console.log(resp);
-                    document.location.href = `upImg.html?${resp.usrDB._id}`;
-
+                    console.log(resp.usrDB._id);
+                    var formData = new FormData();
+                    formData.append('archivo', $('input[type=file]')[0].files[0]);
+                    $.ajax({
+                        type: 'PUT',
+                        url: `http://localhost:3000/upload/usuario/${resp.usrDB._id}`,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function(request) {
+                            request.setRequestHeader("token", window.localStorage.getItem('token'));
+                        },
+                        success: function(res) {
+                            console.log(res);
+                            alert("Usuario creado con exito");
+                            window.location.href = "getusuario.html";
+                        },
+                        error: function(er) {
+                            console.log(er);
+                            $('#error').text(er.responseJSON);
+                            $('#error').show();
+                        }
+                    });
                 },
                 error: function(err) {
+                    console.log(err);
                     $('#error').text(err.responseJSON.err.message);
                     $('#error').show();
-
                 }
+
             });
+
         });
+
         $('input').on('focus', function(e) {
             $('#error').hide();
         });

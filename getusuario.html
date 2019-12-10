@@ -55,6 +55,9 @@
 
     </div>
     <script type="text/javascript">
+        if (localStorage.getItem("token") === null) {
+            window.location.href = "index.html";
+        }
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
