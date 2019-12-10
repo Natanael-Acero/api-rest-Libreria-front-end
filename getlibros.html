@@ -11,31 +11,24 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <img src="assets/images/libro.png" width="50" height="50" class="d-inline-block align-top" alt="">
         <a class="navbar-brand" href="principal.html">NAPECK Libreria</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Usuarios
-                        </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="getusuario.html">Ver Usuarios</a>
-                        <a class="dropdown-item" href="#">Modificar Usuarios</a>
-                    </div>
+                <li class="nav-item active">
+                    <a class="nav-link" href="getusuario.html">Usuarios</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Libros
-                        </a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Libros
+                                </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="getlibros.html">Ver Libros</a>
-                        <a class="dropdown-item" href="#">Modificar Libros</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="libros.html">Agregar Libros</a>
                     </div>
                 </li>
                 <li class="nav-item active">
@@ -44,7 +37,7 @@
             </ul>
         </div>
     </nav>
-    <table id="listaLibros" class="table table-striped table-dark">
+    <table id="listaLibros" class="table table-striped table-dark" style="display: none;">
         <thead>
             <tr>
                 <th scope="col">Nombre</th>
@@ -71,15 +64,17 @@
                                 },
                                 success: function(resp) {
                                         console.log(resp.libros);
+                                        $('#listaLibros').show(1000);
                                         $.each(resp.libros, function() {
+
                                                     $("#listaLibros > tbody").append(
                                                             `${`<tr><td>${this.nombre}</td>`}
                             ${`<td>${this.noPag}</td>`} 
                             ${`<td>${this.autor}</td>`} 
                             ${`<td>${this.editorial}</td>`}
                             ${`<td>${this.precio}</td>`}
-                            ${`<td><a href="" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Eliminar</a></td>`}
-                            ${`<td><a href="putlibros.html?id=${this._id}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Actualizar</a></td></tr>`}`);              
+                            ${`<td><a href="deletelibros.html?id=${this._id}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">Eliminar</a></td>`}
+                            ${`<td><a href="putlibros.html?id=${this._id}&nombre=${this.nombre}&noPag=${this.nombre}&autor=${this.autor}&editorial=${this.editorial}&precio=${this.precio}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Actualizar</a></td></tr>`}`);              
                     });
                 }
             });
