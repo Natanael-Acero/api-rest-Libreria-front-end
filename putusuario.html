@@ -53,39 +53,32 @@
         <div class="row h-100 d-flex justify-content-center">
             <div class="col-4 mt-3">
                 <form id="signin" enctype="application/x-www-form-urlencoded">
-                    <p id="error" style="color: yellowgreen; display:none;"></p>
-                    <img src="./assets/images/libro.png" class="img-fluid mx-auto"><br>
-                    <h1 class="text-center text-light">NAPECK Libreria</h1>
+                    <p id="error" style="color: red; display:none;"></p>
+                    <div id="alert" class="alert alert-success text-center alert-dismissible fade show" style="display:none;" role="alert">
+                        <strong>Actualizado con exito!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><img src="assets/images/person.png" class="img-fluid" width="20" height="20"></span>
                         </div>
-                        <input name="nombre" type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1">
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1">
                     </div><br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><img src="assets/images/email.jfif" class="img-fluid" width="20" height="20"></span>
                         </div>
-                        <input name="email" type="text" class="form-control" placeholder="Email">
-                    </div><br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="assets/images/password.png" class="img-fluid" width="20" height="20"></span>
-                        </div>
-                        <input name="password" type="password" class="form-control" placeholder="Contraseña">
+                        <input id="email" name="email" type="text" class="form-control" placeholder="Email">
                     </div><br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><img src="assets/images/address.png" class="img-fluid" width="20" height="20"></span>
                         </div>
-                        <input name="direccion" type="text" class="form-control" placeholder="Direccion">
+                        <input id="direccion" name="direccion" type="text" class="form-control" placeholder="Direccion">
                     </div><br>
-                    <div class="custom-file input-group mb-3">
-                        <input type="file" class="custom-file-input">
-                        <label class="custom-file-label form-control-file" for="customFile">Choose file</label>
-                    </div><br>
-
-                    <button type="submit" class="btn btn-block btn-outline-success mt-3">Registrarse</button><br>
+                    <button type="submit" class="btn btn-block btn-warning mt-3">Actualizar</button><br>
                 </form>
             </div>
         </div>
@@ -96,58 +89,63 @@
             localStorage.clear();
             window.location.href = "index.html";
         });
-        $('form').on('submit', function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-
+        $(document).ready(function() {
+            $.urlParam = function(name) {
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results == null) {
+                    return null;
+                }
+                return decodeURI(results[1]) || 0;
+            }
+            var id = $.urlParam('id');
             $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3000/usuario',
-                data: $('form').serialize(),
+                type: 'GET',
+                url: `http://localhost:3000/usuario/${id}`,
                 beforeSend: function(request) {
                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                 },
                 success: function(resp) {
-                    console.log(resp.usrDB._id);
-                    var formData = new FormData();
-                    formData.append('archivo', $('input[type=file]')[0].files[0]);
-                    $.ajax({
-                        type: 'PUT',
-                        url: `http://localhost:3000/upload/usuario/${resp.usrDB._id}`,
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function(request) {
-                            request.setRequestHeader("token", window.localStorage.getItem('token'));
-                        },
-                        success: function(res) {
-                            console.log(res);
-                            window.location.href = "getusuario.html";
-                        },
-                        error: function(er) {
-                            console.log(er);
-                            $('#error').text(er.responseJSON);
-                            $('#error').show();
-                        }
+                    console.log(resp.usuarios);
+                    $.each(resp.usuarios, function() {
+
+                        $('#nombre').val(this.nombre);
+                        $('#email').val(this.email);
+                        $('#direccion').val(this.direccion);
                     });
-                },
-                error: function(err) {
-                    console.log(err);
-                    $('#error').text(err.responseJSON.err.message);
-                    $('#error').show();
                 }
 
             });
+            console.log(id);
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
 
-        });
+                $.ajax({
+                    type: 'PUT',
+                    url: `http://localhost:3000/usuario/${id}`,
+                    data: $('form').serialize(),
+                    beforeSend: function(request) {
+                        request.setRequestHeader("token", window.localStorage.getItem('token'));
+                    },
+                    success: function(resp) {
+                        console.log(resp);
+                        $('#alert').show();
+                        setTimeout("window.location.href = 'getusuario.html';", 1300);
 
-        $('input').on('focus', function(e) {
-            $('#error').hide();
-        });
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        $('#error').text(err.responseJSON.err.message);
+                        $('#error').show();
+                    }
 
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+
+            });
+
+            $('input').on('focus', function(e) {
+                $('#error').hide();
+            });
         });
     </script>
 </body>
