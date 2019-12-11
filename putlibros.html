@@ -56,6 +56,12 @@
             <div class="col-4 mt-3">
                 <form id="libros" enctype="application/x-www-form-urlencoded">
                     <p id="error" style="color: red; display:none;"></p>
+                    <div id="alert" class="alert alert-success text-center alert-dismissible fade show" style="display:none;" role="alert">
+                        <strong>Actualizado con exito!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                    </div>
                     <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre del libro"><br>
                     <input id="editorial" name="editorial" type="text" class="form-control" placeholder="Editorial"><br>
                     <input id="autor" name="autor" type="text" class="form-control" placeholder="Autor"><br>
@@ -114,7 +120,8 @@
                     },
                     success: function(resp) {
                         console.log(resp);
-                        window.location.href = "getlibros.html";
+                        $('#alert').show();
+                        setTimeout("window.location.href = 'getlibros.html';", 1300);
                     },
                     error: function(err) {
                         $('#error').text(err.responseJSON.err.message);
