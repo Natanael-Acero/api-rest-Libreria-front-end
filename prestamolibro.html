@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <title>Registrarse</title>
+    <title>Libros</title>
 </head>
 
-<body class="blackgradient">
+<body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <img src="assets/images/libro.png" width="50" height="50" class="d-inline-block align-top" alt="">
         <a class="navbar-brand" href="principal.html">NAPECK Libreria</a>
@@ -47,44 +46,26 @@
                     <a id="cerrar_sesion" class="nav-link" href="#">Cerrar Sesion <span class="sr-only"></span></a>
                 </li>
             </ul>
+
+
+
+
         </div>
     </nav>
+
     <div class="container-fluid">
         <div class="row h-100 d-flex justify-content-center">
             <div class="col-4 mt-3">
                 <form id="signin" enctype="application/x-www-form-urlencoded">
                     <p id="error" style="color: yellowgreen; display:none;"></p>
                     <img src="./assets/images/libro.png" class="img-fluid mx-auto"><br>
-                    <h1 class="text-center text-dark">NAPECK Libreria</h1>
+                    <h1 class="text-center text-light">NAPECK Libreria</h1>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="assets/images/person.png" class="img-fluid" width="20" height="20"></span>
-                        </div>
-                        <input name="nombre" type="text" class="form-control" placeholder="Nombre" aria-describedby="basic-addon1">
+                        <select id="nombre" name="codigoUsuario" class="form-control"></select>
                     </div><br>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="assets/images/email.jfif" class="img-fluid" width="20" height="20"></span>
-                        </div>
-                        <input name="email" type="text" class="form-control" placeholder="Email">
+                        <input id="libro" name="codigoLibro" type="text" class="form-control" placeholder="Email">
                     </div><br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="assets/images/password.png" class="img-fluid" width="20" height="20"></span>
-                        </div>
-                        <input name="password" type="password" class="form-control" placeholder="Contraseña">
-                    </div><br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="assets/images/address.png" class="img-fluid" width="20" height="20"></span>
-                        </div>
-                        <input name="direccion" type="text" class="form-control" placeholder="Direccion">
-                    </div><br>
-                    <div class="custom-file input-group mb-3">
-                        <input type="file" class="custom-file-input">
-                        <label class="custom-file-label form-control-file" for="customFile">Choose file</label>
-                    </div><br>
-
                     <button type="submit" class="btn btn-block btn-outline-success mt-3">Registrarse</button><br>
                 </form>
             </div>
@@ -99,60 +80,50 @@
             localStorage.clear();
             window.location.href = "index.html";
         });
-        $('form').on('submit', function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-
+        if (localStorage.getItem("token") === null) {
+            window.location.href = "index.html";
+        }
+        $(document).ready(function() {
+            $.urlParam = function(name) {
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results == null) {
+                    return null;
+                }
+                return decodeURI(results[1]) || 0;
+            }
+            var id = $.urlParam('id');
+            $('#libros').val(id);
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: 'http://localhost:3000/usuario',
-                data: $('form').serialize(),
                 beforeSend: function(request) {
                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                 },
                 success: function(resp) {
-                    console.log(resp.usrDB._id);
-                    var formData = new FormData();
-                    formData.append('archivo', $('input[type=file]')[0].files[0]);
-                    $.ajax({
-                        type: 'PUT',
-                        url: `http://localhost:3000/upload/usuario/${resp.usrDB._id}`,
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function(request) {
-                            request.setRequestHeader("token", window.localStorage.getItem('token'));
-                        },
-                        success: function(res) {
-                            console.log(res);
-                            window.location.href = "getusuario.html";
-                        },
-                        error: function(er) {
-                            console.log(er);
-                            $('#error').text(er.responseJSON);
-                            $('#error').show();
-                        }
+                    console.log(resp.usuarios);
+                    $('#listaUsuarios').show(1000);
+                    $.each(resp.usuarios, function(i, item) {
+                        $('select').append(`<option value="${item._id}">${item.nombre}</option>`);
                     });
-                },
-                error: function(err) {
-                    console.log(err);
-                    $('#error').text(err.responseJSON.err.message);
-                    $('#error').show();
                 }
-
             });
-
-        });
-
-        $('input').on('focus', function(e) {
-            $('#error').hide();
-        });
-
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            $('form').on('submit', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/prestamo',
+                    data: $('form').serialize(),
+                    beforeSend: function(request) {
+                        request.setRequestHeader("token", window.localStorage.getItem('token'));
+                    },
+                    success: function(resp) {
+                        console.log(resp.usuarios);
+                        window.location.href = "verprestamos.html";
+                    }
+                });
+            });
         });
     </script>
+
 </body>
 
 </html>

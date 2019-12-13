@@ -76,15 +76,15 @@
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:3000/libro',
+                                url: 'http://localhost:3000/prestamo',
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },
                                 success: function(resp) {
-                                        console.log(resp.libros);
-                                        $.each(resp.libros, function() {
+                                        console.log(resp.prestamos);
+                                        $.each(resp.prestamos, function() {
                                                     $("#listaLibros > tbody").append(
-                                                            `${`<tr><td>${this.nombre}</td>`}
+                                                            `${`<tr><td>${this.codigoUsuario}</td>`}
                             ${`<td>${this.noPag}</td>`} 
                             ${`<td>${this.autor}</td>`} 
                             ${`<td>${this.editorial}</td>`}
