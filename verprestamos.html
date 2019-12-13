@@ -76,7 +76,7 @@
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:3000/prestamo',
+                                url: 'https://apirestlibreria.herokuapp.com/prestamo',
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },

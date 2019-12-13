@@ -76,7 +76,7 @@
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:3000/libro',
+                                url: 'https://apirestlibreria.herokuapp.com/libro',
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },

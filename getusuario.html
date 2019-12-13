@@ -90,7 +90,7 @@
                                         $.each(resp.usuarios, function() {
                                                     $("#listaUsuarios > tbody").append(
                                                             `
-                                                            ${`<tr><td><img class="img-fluid" width="50" height="50" src='http://localhost:3000/imagen/usuario/${this.img}'></td>`}
+                                                            ${`<tr><td><img class="img-fluid" width="50" height="50" src='https://apirestlibreria.herokuapp.com/imagen/usuario/${this.img}'></td>`}
                                                             ${`<td>${this.nombre}</td>`} 
                             ${`<td>${this.email}</td>`} 
                             ${`<td>${this.direccion}</td>`}

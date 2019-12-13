@@ -103,7 +103,7 @@
             var id = $.urlParam('id');
             $.ajax({
                 type: 'GET',
-                url: `http://localhost:3000/usuario/${id}`,
+                url: `https://apirestlibreria.herokuapp.com/usuario/${id}`,
                 beforeSend: function(request) {
                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                 },
@@ -125,7 +125,7 @@
 
                 $.ajax({
                     type: 'PUT',
-                    url: `http://localhost:3000/usuario/${id}`,
+                    url: `https://apirestlibreria.herokuapp.com/usuario/${id}`,
                     data: $('form').serialize(),
                     beforeSend: function(request) {
                         request.setRequestHeader("token", window.localStorage.getItem('token'));

@@ -95,7 +95,7 @@
             $('#libros').val(id);
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:3000/usuario',
+                url: 'https://apirestlibreria.herokuapp.com/usuario',
                 beforeSend: function(request) {
                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                 },
@@ -110,7 +110,7 @@
             $('form').on('submit', function() {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/prestamo',
+                    url: 'https://apirestlibreria.herokuapp.com/prestamo',
                     data: $('form').serialize(),
                     beforeSend: function(request) {
                         request.setRequestHeader("token", window.localStorage.getItem('token'));

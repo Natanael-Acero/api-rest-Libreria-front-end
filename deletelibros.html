@@ -112,7 +112,7 @@
                     var id = $.urlParam('id');
                     $.ajax({
                                 type: 'GET',
-                                url: `http://localhost:3000/libro/${id}`,
+                                url: `https://apirestlibreria.herokuapp.com/libro/${id}`,
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },
@@ -132,7 +132,7 @@
     $('#delete').click(function() {
                                 $.ajax({
                                 type: 'DELETE',
-                                url: `http://localhost:3000/libro/${id}`,
+                                url: `https://apirestlibreria.herokuapp.com/libro/${id}`,
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },
