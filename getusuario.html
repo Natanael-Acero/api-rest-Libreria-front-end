@@ -80,7 +80,7 @@
         $(document).ready(function() {
                     $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:3000/usuario',
+                                url: 'https://apirestlibreria.herokuapp.com/usuario',
                                 beforeSend: function(request) {
                                     request.setRequestHeader("token", window.localStorage.getItem('token'));
                                 },
