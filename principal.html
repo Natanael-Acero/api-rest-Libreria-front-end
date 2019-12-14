@@ -82,11 +82,11 @@
 </html>
 <script type="text/javascript">
     if (localStorage.getItem("token") === null) {
-        window.location.href = "index.html";
+        window.location.href = "home.html";
     }
     $('#cerrar_sesion').on('click', function(e) {
         localStorage.clear();
-        window.location.href = "index.html";
+        window.location.href = "home.html";
     });
 </script>
 </body>
