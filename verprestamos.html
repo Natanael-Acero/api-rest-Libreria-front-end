@@ -96,7 +96,8 @@
                             ${`<td>${this.fechaDevolucion.substring(0,10)}</td>`}
                             ${`<td>${this.estado}</td>`}
                             ${`<td><a href="devprestamo.html?id=${this._id}"><button type="button" class="btn btn-success">Devolucion</button></a></td>`}
-                            ${`<td><a href="putprestamo.html?id=${this._id}&libro=${this.codigoLibro.nombre}&usuario=${this.codigoUsuario.nombre}&fechaSalida=${this.fechaSalida.substring(0,10)}&fechaDevolucion=${this.fechaDevolucion.substring(0,10)}"><button type="button" class="btn btn-warning">Modificar prestamo</button></a></td></tr>`}`);              
+                            ${`<td><a href="putprestamo.html?id=${this._id}&libro=${this.codigoLibro.nombre}&usuario=${this.codigoUsuario.nombre}&fechaSalida=${this.fechaSalida.substring(0,10)}&fechaDevolucion=${this.fechaDevolucion.substring(0,10)}"><button type="button" class="btn btn-warning">Modificar prestamo</button></a></td>`}
+                            ${`<td><a href="deleteprestamos.html?id=${this._id}"><button type="button" class="btn btn-danger">Eliminar</button></a></td>`}`);              
                     });
                 },
                 error: function(er) {
