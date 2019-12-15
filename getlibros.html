@@ -100,7 +100,11 @@
                             ${`<td><a href="deletelibros.html?id=${this._id}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">Eliminar</a></td>`}
                             ${`<td><a href="putlibros.html?id=${this._id}&nombre=${this.nombre}&noPag=${this.nombre}&autor=${this.autor}&editorial=${this.editorial}&precio=${this.precio}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">Actualizar</a></td></tr>`}`);              
                     });
-                }
+                },  error: function(err) {
+                            console.log(err);
+                            console.libros(err.responseJSON.err.message);
+                            
+                        }
             });
         });
     </script>

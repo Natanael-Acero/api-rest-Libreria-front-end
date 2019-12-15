@@ -13,7 +13,7 @@
     <title>Login</title>
 </head>
 
-<body class="blackgradient">
+<body>
     <div class="container-fluid">
         <div class="row h-100 d-flex justify-content-center">
             <div class="col-4 mt-3">
@@ -43,7 +43,6 @@
         $('#login').on('submit', function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
-
             $.ajax({
                 type: 'POST',
                 url: 'https://apirestlibreria.herokuapp.com/login',
@@ -52,12 +51,10 @@
                     window.localStorage.setItem('token', resp.token);
                     console.log(resp);
                     document.location.href = 'principal.html';
-
                 },
                 error: function(err) {
                     $('#error').text(err.responseJSON.err.message);
                     $('#error').show();
-
                 }
             });
         });

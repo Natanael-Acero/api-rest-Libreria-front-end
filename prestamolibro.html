@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <title>Libros</title>
+    <title>Prestar Libro</title>
 </head>
 
 <body>
@@ -63,12 +63,18 @@
                     <img src="./assets/images/libro.png" class="img-fluid mx-auto"><br>
                     <h1 class="text-center text-light">NAPECK Libreria</h1>
                     <div class="input-group mb-3">
+                        <span class="input-group-text" name="codigoLibro" value="${id}">Usuario</span>
                         <select id="nombre" name="codigoUsuario" class="form-control"></select>
                     </div><br>
-                    <div class="input-group mb-3">
-                        <input id="libro" name="codigoLibro" type="text" class="form-control" placeholder="Email">
+                    <div id="libro" class="input-group mb-3">
+
                     </div><br>
-                    <button type="submit" class="btn btn-block btn-outline-success mt-3">Registrarse</button><br>
+                    <div class="input-group mb-3"><span class="input-group-text">Fecha de devolucion</span>
+                        <input name="fechaDevolucion" type="date" class="form-control"><br>
+
+                    </div><br>
+
+                    <button type="submit" class="btn btn-block btn-outline-success mt-3">Registrar prestamo</button><br>
                 </form>
             </div>
         </div>
@@ -94,6 +100,8 @@
                 return decodeURI(results[1]) || 0;
             }
             var id = $.urlParam('id');
+            var libro = $.urlParam('libro');
+            $('#libro').append(`<span class="input-group-text">${libro}:</span><input name="codigoLibro" type="text" class="form-control" value="${id}">`)
             $('#libros').val(id);
             $.ajax({
                 type: 'GET',
@@ -109,19 +117,27 @@
                     });
                 }
             });
-            $('form').on('submit', function() {
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://apirestlibreria.herokuapp.com/prestamo',
-                    data: $('form').serialize(),
-                    beforeSend: function(request) {
-                        request.setRequestHeader("token", window.localStorage.getItem('token'));
-                    },
-                    success: function(resp) {
-                        console.log(resp.usuarios);
-                        window.location.href = "verprestamos.html";
-                    }
-                });
+        });
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $.ajax({
+                type: 'POST',
+                url: 'https://apirestlibreria.herokuapp.com/prestamo',
+                data: $('form').serialize(),
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
+                success: function(resp) {
+                    console.log(resp.prestamos);
+                    window.location.href = "verprestamos.html";
+                },
+                error: function(err) {
+                    console.log(err);
+                    $('#error').text(err.responseJSON.err.message);
+                    $('#error').show();
+
+                }
             });
         });
     </script>
