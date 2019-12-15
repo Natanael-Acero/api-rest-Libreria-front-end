@@ -125,12 +125,11 @@
                         },
                         success: function(res) {
                             console.log(res);
-                            alert("exito");
                             window.location.href = "getusuario.html";
                         },
                         error: function(er) {
                             console.log(er);
-                            $('#error').text(er.responseJSON);
+                            $('#error').text(er.responseJSON.message);
                             $('#error').show();
                         }
                     });
