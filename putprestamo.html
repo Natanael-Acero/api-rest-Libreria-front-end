@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Modificar Prestamos</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <img src="assets/images/libro.png" width="50" height="50" class="d-inline-block align-top" alt="">
+        <a class="navbar-brand" href="principal.html">NAPECK Libreria</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          Usuarios
+                                        </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="getusuario.html">Ver Usuarios</a>
+                        <a class="dropdown-item" href="registro.html">Agregar Usuarios</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Libros
+                                </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="getlibros.html">Ver Libros</a>
+                        <a class="dropdown-item" href="libros.html">Agregar Libros</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Prestamos
+                                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="verprestamos.html">Ver Prestamos</a>
+                        <a class="dropdown-item" href="prestamos.html">Prestar Libro</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto flex-column-reverse flex-md-row">
+                <li>
+                    <a id="cerrar_sesion" class="nav-link" href="#">Cerrar Sesion <span class="sr-only"></span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row h-100 d-flex justify-content-center">
+            <div class="col-4 mt-3">
+                <form id="prestamos" enctype="application/x-www-form-urlencoded">
+                    <p id="error" style="color: yellowgreen; display:none;"></p>
+                    <img src="./assets/images/libro.png" class="img-fluid mx-auto"><br>
+                    <h1 class="text-center text-light">NAPECK Libreria</h1>
+                    <div class="input-group mb-3">
+                        <span id="userBfr" class="text-center text-warning">Antes: </span><br>
+                        <span class="input-group-text" name="codigoLibro">Usuario</span>
+                        <select id="userSelect" name="codigoUsuario" class="form-control"></select>
+                    </div><br>
+                    <div id="libroSelect" class="input-group mb-3">
+                        <span id="libroBfr" class="text-center text-warning">Antes: </span><br>
+                        <span class="input-group-text" name="codigoLibro">Libro</span>
+                        <select id="libroOptions" name="codigoUsuario" class="form-control"></select>
+                    </div><br>
+                    <div class="input-group mb-3">
+                        <span id="fechaBfr" class="text-center text-warning">Antes: </span><br>
+                        <span class="input-group-text">Fecha de salida</span>
+                        <input name="fechaSalida" type="date" class="form-control"><br>
+
+                    </div><br>
+                    <div class="input-group mb-3">
+                        <span id="fecha" class="text-center text-warning">Antes: </span><br>
+                        <span class="input-group-text">Fecha de devolucion</span>
+                        <input name="fechaDevolucion" type="date" class="form-control"><br>
+
+                    </div><br>
+
+                    <button type="submit" class="btn btn-block btn-outline-success mt-3">Registrar prestamo</button><br>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        if (localStorage.getItem("token") === null) {
+            window.location.href = "home.html";
+        }
+        $('#cerrar_sesion').on('click', function(e) {
+            localStorage.clear();
+            window.location.href = "home.html";
+        });
+        $(document).ready(function() {
+            $.urlParam = function(name) {
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results == null) {
+                    return null;
+                }
+                return decodeURI(results[1]) || 0;
+            }
+            var id = $.urlParam('id');
+            var libro = $.urlParam('libro');
+            var usuario = $.urlParam('usuario');
+            var fechaSalida = $.urlParam('fechaSalida');
+            var fechaDevolucion = $.urlParam('fechaDevolucion');
+            $('#fechaBfr').append(fechaSalida)
+            $('#libroBfr').append(libro);
+            $('#userBfr').append(usuario);
+            $('#fecha').append(fechaDevolucion);
+            $.ajax({
+                type: 'GET',
+                url: 'https://apirestlibreria.herokuapp.com/usuario',
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
+                success: function(resp) {
+                    console.log(resp.usuarios);
+                    $.each(resp.usuarios, function(i, item) {
+                        $('#userSelect').append(`<option value="${item._id}">${item.nombre}</option>`);
+                    });
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: 'https://apirestlibreria.herokuapp.com/libro',
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                },
+                success: function(resp) {
+                    console.log(resp.libros);
+                    $('#listaUsuarios').show(1000);
+                    $.each(resp.libros, function(i, item) {
+                        $('#libroOptions').append(`<option value="${item._id}">${item.nombre}</option>`);
+                    });
+                }
+            });
+            $('#prestamos').on('submit', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $.ajax({
+                    type: 'PUT',
+                    url: `https://apirestlibreria.herokuapp.com/prestamo/${id}`,
+                    data: $('#prestamos').serialize(),
+                    beforeSend: function(request) {
+                        request.setRequestHeader("token", window.localStorage.getItem('token'));
+                    },
+                    success: function(resp) {
+                        console.log(resp);
+                        $('#alert').show();
+                        setTimeout("window.location.href = 'verprestamos.html';", 1300);
+                    },
+                    error: function(err) {
+                        $('#error').text(err.responseJSON.err.message);
+                        $('#error').show();
+                    }
+                });
+            });
+            $('input').on('focus', function(e) {
+                $('#error').hide();
+            });
+        });
+    </script>
+</body>
+
+</html>

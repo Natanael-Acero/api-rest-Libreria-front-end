@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Devolver</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <img src="assets/images/libro.png" width="50" height="50" class="d-inline-block align-top" alt="">
+        <a class="navbar-brand" href="principal.html">NAPECK Libreria</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          Usuarios
+                                        </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="getusuario.html">Ver Usuarios</a>
+                        <a class="dropdown-item" href="registro.html">Agregar Usuarios</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Libros
+                                </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="getlibros.html">Ver Libros</a>
+                        <a class="dropdown-item" href="libros.html">Agregar Libros</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Prestamos
+                                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="verprestamos.html">Ver Prestamos</a>
+                        <a class="dropdown-item" href="prestamos.html">Prestar Libro</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto flex-column-reverse flex-md-row">
+                <li>
+                    <a id="cerrar_sesion" class="nav-link" href="#">Cerrar Sesion <span class="sr-only"></span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+
+        <div class="row h-200 d-flex justify-content-center">
+            <div class="col-6 mt-2">
+                <div id="alert" class="alert alert-primary text-center alert-dismissible fade show" style="display:none;" role="alert">
+                    <strong>Libro devuelto!</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                </div>
+                <div id="salir" class="alert alert-primary text-center" style="display:none;" role="alert">
+                    ¿Deseas regresar a prestamos?.<br>
+                    <a href="getlibros.html"><button type="button" class="btn btn-success mt-1 mr-auto">Si</button></a>
+                    <button id="no" type="button" class="btn btn-danger mt-1 ml-auto">No</button>
+                </div>
+                <div id="confirm" class="alert alert-success d-flex" style="display:none" role="alert">
+                    El usuario va a devolver el libro ¿Es correcto?
+                    <button id="delete" type="button" class="btn btn-primary mt-4 mr-4">Si</button>
+                    <button id="cancelar" type="button" class="btn btn-danger mt-4 mr-4">No</button></a>
+                </div>
+                <table id="listaLibros" class="table table-stripped table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Libro</th>
+                            <th scope="col">Fecha Salida</th>
+                            <th scope="col">Fecha Devolucion</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        </form>
+
+
+    </div>
+
+    </div>
+
+    <script type="text/javascript">
+        if (localStorage.getItem("token") === null) {
+            window.location.href = "home.html";
+        }
+        $('#cerrar_sesion').on('click', function(e) {
+            localStorage.clear();
+            window.location.href = "home.html";
+        });
+        $(document).ready(function() {
+                    $('#confirm').show(900);
+                    $.urlParam = function(name) {
+                        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                        if (results == null) {
+                            return null;
+                        }
+                        return decodeURI(results[1]) || 0;
+                    }
+                    var id = $.urlParam('id');
+                    $.ajax({
+                                type: 'GET',
+                                url: `https://apirestlibreria.herokuapp.com/prestamo/${id}`,
+                                beforeSend: function(request) {
+                                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                                },
+                                success: function(resp) {
+                                        console.log(resp.prestamos);
+                                        $.each(resp.prestamos, function() {
+                                                    $("#listaLibros > tbody").append(
+                                                            `${`<tr><td>${this.codigoUsuario.nombre}</td>`}
+                            ${`<td>${this.codigoLibro.nombre}</td>`} 
+                            ${`<td>${this.fechaSalida.substring(0,10)}</td>`} 
+                            ${`<td>${this.fechaDevolucion.substring(0,10)}</td>`}
+                            ${`<td>${this.estado}</td></tr>`}`);              
+                    });
+                }
+                
+            });
+    $('#delete').click(function() {
+                                $.ajax({
+                                type: 'DELETE',
+                                url: `https://apirestlibreria.herokuapp.com/prestamo/${id}`,
+                                beforeSend: function(request) {
+                                    request.setRequestHeader("token", window.localStorage.getItem('token'));
+                                },
+                                success: function(resp) {
+                                    $('#alert').show();
+                                        setTimeout("window.location.href = 'verprestamos.html';",1300);
+                                        
+                                         },
+                                         error: function(err) {
+                            console.log(err);
+                            console.log(err.responseJSON.err.message);
+                            
+                        }
+                
+            });
+            
+});
+$('#cancelar').click(function() {
+            $('#salir').fadeIn(1000);
+        });
+ $('#no').click(function(){
+    $('#salir').fadeOut(100);
+ });       
+        });
+    </script>
+
+</body>
+
+</html>
